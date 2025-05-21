@@ -1,0 +1,35 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(bodyParser.json());
+
+// MySQL connection
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',       // 👈 your MySQL username
+  password: '',       // 👈 your MySQL password
+  database: 'testdb'  // 👈 your DB name (we’ll create it if not present)
+});
+
+connection.connect(err => {
+  if (err) {
+    console.error('❌ Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('✅ Connected to MySQL Database!');
+});
+
+// Test route
+app.get('/', (req, res) => {
+  res.send('Hello from Node + MySQL API!');
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+});
